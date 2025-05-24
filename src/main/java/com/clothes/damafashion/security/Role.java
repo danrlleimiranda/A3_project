@@ -5,7 +5,6 @@ package com.clothes.damafashion.security;
  */
 public enum Role {
   ADMIN("ROLE_ADMIN"),
-  MANAGER("ROLE_MANAGER"),
   USER("ROLE_USER");
 
   private final String name;

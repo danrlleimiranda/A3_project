@@ -7,31 +7,63 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Stock service.
+ */
 @Service
 public class StockService {
 
     private final StockRepository stockRepository;
 
+    /**
+     * Instantiates a new Stock service.
+     *
+     * @param stockRepository the stock repository
+     */
     public StockService(StockRepository stockRepository) {
         this.stockRepository = stockRepository;
     }
 
-    // Listar todos os estoques
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
+// Listar todos os estoques
     public List<Stock> findAll() {
         return stockRepository.findAll();
     }
 
-    // Buscar o estoque de um produto pelo ID
+    /**
+     * Find by product id optional.
+     *
+     * @param productId the product id
+     * @return the optional
+     */
+// Buscar o estoque de um produto pelo ID
     public Optional<Stock> findByProductId(Long productId) {
         return stockRepository.findById(productId);
     }
 
-    // Criar ou atualizar o estoque de um produto
+    /**
+     * Save or update stock.
+     *
+     * @param stock the stock
+     * @return the stock
+     */
+// Criar ou atualizar o estoque de um produto
     public Stock saveOrUpdate(Stock stock) {
         return stockRepository.save(stock);
     }
 
-    // Atualizar o estoque do produto pelo ID do produto
+    /**
+     * Update quantity optional.
+     *
+     * @param productId the product id
+     * @param quantity  the quantity
+     * @return the optional
+     */
+// Atualizar o estoque do produto pelo ID do produto
     public Optional<Stock> updateQuantity(Long productId, int quantity) {
         return stockRepository.findById(productId).map(stock -> {
             stock.setQuantity(quantity);
@@ -39,7 +71,13 @@ public class StockService {
         });
     }
 
-    // Deletar estoque de um produto pelo ID
+    /**
+     * Delete boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
+// Deletar estoque de um produto pelo ID
     public boolean delete(Long id) {
         if (stockRepository.existsById(id)) {
             stockRepository.deleteById(id);

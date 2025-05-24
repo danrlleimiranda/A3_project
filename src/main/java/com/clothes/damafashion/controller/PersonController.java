@@ -1,5 +1,7 @@
-package com.clothes.damafashion.controller.dto;
+package com.clothes.damafashion.controller;
 
+import com.clothes.damafashion.controller.dto.PersonCreationDto;
+import com.clothes.damafashion.controller.dto.PersonDto;
 import com.clothes.damafashion.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

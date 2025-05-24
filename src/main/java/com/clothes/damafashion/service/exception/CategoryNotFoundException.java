@@ -1,12 +1,14 @@
 package com.clothes.damafashion.service.exception;
 
+
 /**
- * The type Fertilizer not found exception.
+ * The type Category not found exception.
  */
 public class CategoryNotFoundException extends NotFoundException {
 
+
   /**
-   * Instantiates a new Fertilizer not found exception.
+   * Instantiates a new Category not found exception.
    */
   public CategoryNotFoundException() {
     super("Categoria não encontrada!");

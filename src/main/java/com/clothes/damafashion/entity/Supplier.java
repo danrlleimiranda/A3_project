@@ -22,4 +22,10 @@ public class Supplier {
 
   @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Product> products;
+
+  public Supplier(String name, String contact, List<Product> products) {
+    this.name = name;
+    this.contact = contact;
+    this.products = products;
+  }
 }

@@ -7,31 +7,59 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Product service.
+ */
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
 
+    /**
+     * Instantiates a new Product service.
+     *
+     * @param productRepository the product repository
+     */
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    // Listar todos os produtos
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
-    // Buscar um produto por ID
+    /**
+     * Find by id optional.
+     *
+     * @param id the id
+     * @return the optional
+     */
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
 
-    // Salvar um novo produto
+    /**
+     * Save product.
+     *
+     * @param product the product
+     * @return the product
+     */
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
-    // Atualizar um produto existente
+    /**
+     * Update optional.
+     *
+     * @param id         the id
+     * @param newProduct the new product
+     * @return the optional
+     */
     public Optional<Product> update(Long id, Product newProduct) {
         return productRepository.findById(id).map(product -> {
             product.setName(newProduct.getName());
@@ -43,12 +71,14 @@ public class ProductService {
         });
     }
 
-    // Deletar produto por ID
-    public boolean delete(Long id) {
+    /**
+     * Delete boolean.
+     *
+     * @param id the id
+     */
+    public void delete(Long id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
-            return true;
         }
-        return false;
     }
 }

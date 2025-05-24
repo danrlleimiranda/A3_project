@@ -1,12 +1,14 @@
 package com.clothes.damafashion.service.exception;
 
+
 /**
- * The type Farm not found exception.
+ * The type Supplier not found exception.
  */
 public class SupplierNotFoundException extends NotFoundException {
 
+
   /**
-   * Instantiates a new Farm not found exception.
+   * Instantiates a new Supplier not found exception.
    */
   public SupplierNotFoundException() {
     super("Fornecedor não encontrado!");
