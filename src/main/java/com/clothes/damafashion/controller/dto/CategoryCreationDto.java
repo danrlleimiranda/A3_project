@@ -7,15 +7,15 @@ import com.clothes.damafashion.entity.Product;
 import java.util.List;
 
 /**
- * The type Fertilizer creation dto.
+ * The type Category creation dto.
  */
 public record CategoryCreationDto(String name, List<Product> products ) {
 
 
   /**
-   * To entity fertilizer.
+   * To entity category.
    *
-   * @return the fertilizer
+   * @return the category
    */
   public Category toEntity() {
     return new Category(name, products);

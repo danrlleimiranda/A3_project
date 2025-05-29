@@ -18,13 +18,11 @@ public class CategoryController {
     this.categoryService = categoryService;
   }
 
-  // GET: Buscar todas as categorias
   @GetMapping
   public List<Category> getAllCategories() {
     return categoryService.findAll();
   }
 
-  // GET: Buscar categoria por ID
   @GetMapping("/{id}")
   public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
     return categoryService.findById(id)
@@ -32,7 +30,6 @@ public class CategoryController {
             .orElse(ResponseEntity.notFound().build());
   }
 
-  // POST: Criar uma nova categoria
   @PostMapping
   public Category createCategory(@RequestBody Category category) {
     return categoryService.save(category);

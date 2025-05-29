@@ -20,13 +20,11 @@ public class ProductController {
     this.productService = productService;
   }
 
-  // GET: Buscar todos os produtos
   @GetMapping
   public List<Product> getAllProducts() {
     return productService.findAll();
   }
 
-  // GET: Buscar produto por ID
   @GetMapping("/{id}")
   public ResponseEntity<Product> getProductById(@PathVariable Long id) {
     return productService.findById(id)
@@ -34,13 +32,11 @@ public class ProductController {
             .orElse(ResponseEntity.notFound().build());
   }
 
-  // POST: Criar um novo produto
   @PostMapping
   public Product createProduct(@RequestBody Product product) {
     return productService.save(product);
   }
 
-  // PUT: Atualizar um produto existente
   @PutMapping("/{id}")
   public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product newProduct) {
     return productService.findById(id).map(product -> {
@@ -53,7 +49,6 @@ public class ProductController {
     }).orElse(ResponseEntity.notFound().build());
   }
 
-  // DELETE: Excluir um produto
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 
