@@ -29,7 +29,6 @@ public class SupplierService {
      *
      * @return the list
      */
-// Listar todos os fornecedores
     public List<Supplier> findAll() {
         return supplierRepository.findAll();
     }
@@ -40,7 +39,6 @@ public class SupplierService {
      * @param id the id
      * @return the optional
      */
-// Buscar um fornecedor pelo ID
     public Optional<Supplier> findById(Long id) {
         return supplierRepository.findById(id);
     }
@@ -51,7 +49,6 @@ public class SupplierService {
      * @param supplier the supplier
      * @return the supplier
      */
-// Criar um novo fornecedor
     public Supplier save(Supplier supplier) {
         return supplierRepository.save(supplier);
     }
@@ -63,7 +60,6 @@ public class SupplierService {
      * @param newSupplier the new supplier
      * @return the optional
      */
-// Atualizar um fornecedor existente
     public Optional<Supplier> update(Long id, Supplier newSupplier) {
         return supplierRepository.findById(id).map(supplier -> {
             supplier.setName(newSupplier.getName());
@@ -78,7 +74,6 @@ public class SupplierService {
      * @param id the id
      * @return the boolean
      */
-// Deletar fornecedor pelo ID
     public boolean delete(Long id) {
         if (supplierRepository.existsById(id)) {
             supplierRepository.deleteById(id);

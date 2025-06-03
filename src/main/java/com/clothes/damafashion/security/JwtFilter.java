@@ -4,7 +4,7 @@ package com.clothes.damafashion.security;
 import java.io.IOException;
 import java.util.Optional;
 
-import com.clothes.damafashion.service.PersonService;
+import com.clothes.damafashion.service.UserService;
 import com.clothes.damafashion.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,18 +24,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtFilter extends OncePerRequestFilter {
 
   private final TokenService tokenService;
-  private final PersonService personService;
+  private final UserService userService;
 
   /**
    * Instantiates a new Jwt filter.
    *
    * @param tokenService  the token service
-   * @param personService the person service
+   * @param userService the person service
    */
   @Autowired
-  public JwtFilter(TokenService tokenService, PersonService personService) {
+  public JwtFilter(TokenService tokenService, UserService userService) {
     this.tokenService = tokenService;
-    this.personService = personService;
+    this.userService = userService;
   }
 
   @Override
@@ -46,7 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
     if (token.isPresent()) {
       String subject = tokenService.validateToken(token.get());
 
-      UserDetails userDetails = personService.loadUserByUsername(subject);
+      UserDetails userDetails = userService.loadUserByUsername(subject);
 
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
           userDetails, null, userDetails.getAuthorities());

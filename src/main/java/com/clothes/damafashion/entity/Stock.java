@@ -3,6 +3,9 @@ package com.clothes.damafashion.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+/**
+ * The type Stock.
+ */
 @Data
 @Entity
 @Table(name = "stocks")

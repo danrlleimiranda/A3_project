@@ -25,4 +25,7 @@ public class Category {
     this.products = products;
   }
 
+  public Category() {
+
+  }
 }

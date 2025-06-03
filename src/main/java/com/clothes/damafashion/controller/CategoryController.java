@@ -8,21 +8,41 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Category controller.
+ */
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
 
   private final CategoryService categoryService;
+
+  /**
+   * Instantiates a new Category controller.
+   *
+   * @param categoryService the category service
+   */
   @Autowired
   public CategoryController(CategoryService categoryService) {
     this.categoryService = categoryService;
   }
 
+  /**
+   * Gets all categories.
+   *
+   * @return the all categories
+   */
   @GetMapping
   public List<Category> getAllCategories() {
     return categoryService.findAll();
   }
 
+  /**
+   * Gets category by id.
+   *
+   * @param id the id
+   * @return the category by id
+   */
   @GetMapping("/{id}")
   public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
     return categoryService.findById(id)
@@ -30,11 +50,24 @@ public class CategoryController {
             .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Create category category.
+   *
+   * @param category the category
+   * @return the category
+   */
   @PostMapping
   public Category createCategory(@RequestBody Category category) {
     return categoryService.save(category);
   }
 
+  /**
+   * Update category response entity.
+   *
+   * @param id          the id
+   * @param newCategory the new category
+   * @return the response entity
+   */
   @PutMapping("/{id}")
   public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category newCategory) {
     return categoryService.findById(id).map(category -> {
@@ -43,6 +76,12 @@ public class CategoryController {
     }).orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Delete category response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
     Optional<Category> category = categoryService.findById(id);

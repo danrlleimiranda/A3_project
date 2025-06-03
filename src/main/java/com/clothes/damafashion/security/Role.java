@@ -1,19 +1,18 @@
 package com.clothes.damafashion.security;
 
+import lombok.Getter;
+
 /**
  * Enum representing a Role.
  */
+@Getter
 public enum Role {
-  ADMIN("ROLE_ADMIN"),
-  USER("ROLE_USER");
+  ADMIN("ADMIN"),
+  USER("USER");
 
   private final String name;
 
   Role(String name) {
     this.name = name;
-  }
-
-  public String getName() {
-    return name;
   }
 }

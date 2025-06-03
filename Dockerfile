@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.3_7-jdk-jammy as build-image
+FROM eclipse-temurin:17.0.3_7-jdk-jammy AS build-image
 
 WORKDIR /to-build-app
 

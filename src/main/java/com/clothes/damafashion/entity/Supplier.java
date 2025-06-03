@@ -28,4 +28,8 @@ public class Supplier {
     this.contact = contact;
     this.products = products;
   }
+
+  public Supplier() {
+
+  }
 }

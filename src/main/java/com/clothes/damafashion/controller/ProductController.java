@@ -9,22 +9,41 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Product controller.
+ */
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
   private final ProductService productService;
 
+  /**
+   * Instantiates a new Product controller.
+   *
+   * @param productService the product service
+   */
   @Autowired
   public ProductController(ProductService productService) {
     this.productService = productService;
   }
 
+  /**
+   * Gets all products.
+   *
+   * @return the all products
+   */
   @GetMapping
   public List<Product> getAllProducts() {
     return productService.findAll();
   }
 
+  /**
+   * Gets product by id.
+   *
+   * @param id the id
+   * @return the product by id
+   */
   @GetMapping("/{id}")
   public ResponseEntity<Product> getProductById(@PathVariable Long id) {
     return productService.findById(id)
@@ -32,11 +51,24 @@ public class ProductController {
             .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Create product product.
+   *
+   * @param product the product
+   * @return the product
+   */
   @PostMapping
   public Product createProduct(@RequestBody Product product) {
     return productService.save(product);
   }
 
+  /**
+   * Update product response entity.
+   *
+   * @param id         the id
+   * @param newProduct the new product
+   * @return the response entity
+   */
   @PutMapping("/{id}")
   public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product newProduct) {
     return productService.findById(id).map(product -> {
@@ -49,6 +81,12 @@ public class ProductController {
     }).orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Delete product response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 

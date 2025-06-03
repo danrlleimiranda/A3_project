@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * The interface Farm repository.
+ * The interface Supplier repository.
  */
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {

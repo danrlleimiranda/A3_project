@@ -29,7 +29,6 @@ public class StockService {
      *
      * @return the list
      */
-// Listar todos os estoques
     public List<Stock> findAll() {
         return stockRepository.findAll();
     }
@@ -40,7 +39,6 @@ public class StockService {
      * @param productId the product id
      * @return the optional
      */
-// Buscar o estoque de um produto pelo ID
     public Optional<Stock> findByProductId(Long productId) {
         return stockRepository.findById(productId);
     }
@@ -51,7 +49,6 @@ public class StockService {
      * @param stock the stock
      * @return the stock
      */
-// Criar ou atualizar o estoque de um produto
     public Stock saveOrUpdate(Stock stock) {
         return stockRepository.save(stock);
     }
@@ -63,7 +60,6 @@ public class StockService {
      * @param quantity  the quantity
      * @return the optional
      */
-// Atualizar o estoque do produto pelo ID do produto
     public Optional<Stock> updateQuantity(Long productId, int quantity) {
         return stockRepository.findById(productId).map(stock -> {
             stock.setQuantity(quantity);
@@ -77,7 +73,6 @@ public class StockService {
      * @param id the id
      * @return the boolean
      */
-// Deletar estoque de um produto pelo ID
     public boolean delete(Long id) {
         if (stockRepository.existsById(id)) {
             stockRepository.deleteById(id);

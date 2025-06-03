@@ -1,13 +1,40 @@
 services:
-  postgres: 
+  postgres:
     container_name: postgres_db
     image: postgres
-    ports: 
-    - 5432:5432
-    environment: 
+    ports:
+      - 5432:5432
+    environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
       POSTGRES_DB: inventory_manager
       PGDATA: /data/postgres
     volumes:
-    - ./data/pg:/data/postgres
+      - ./data/pg:/data/postgres
+    networks:
+      - app-network
+
+  backend:
+    container_name: damafashion_backend
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_APPLICATION_NAME=damafashion
+      - API_SECURITY_TOKEN_SECRET=secret
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/inventory_manager
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=docker
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
