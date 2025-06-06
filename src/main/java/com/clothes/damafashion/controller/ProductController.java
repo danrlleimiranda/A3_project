@@ -1,7 +1,12 @@
 package com.clothes.damafashion.controller;
 
+import com.clothes.damafashion.controller.dto.ProductCreationDto;
+import com.clothes.damafashion.entity.Category;
 import com.clothes.damafashion.entity.Product;
+import com.clothes.damafashion.entity.Supplier;
+import com.clothes.damafashion.service.CategoryService;
 import com.clothes.damafashion.service.ProductService;
+import com.clothes.damafashion.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +22,21 @@ import java.util.Optional;
 public class ProductController {
 
   private final ProductService productService;
+  private final CategoryService categoryService;
+  private final SupplierService supplierService;
 
   /**
    * Instantiates a new Product controller.
    *
-   * @param productService the product service
+   * @param productService  the product service
+   * @param categoryService the category service
+   * @param supplierService the supplier service
    */
   @Autowired
-  public ProductController(ProductService productService) {
+  public ProductController(ProductService productService, CategoryService categoryService, SupplierService supplierService) {
     this.productService = productService;
+    this.categoryService = categoryService;
+    this.supplierService = supplierService;
   }
 
   /**
@@ -58,8 +69,9 @@ public class ProductController {
    * @return the product
    */
   @PostMapping
-  public Product createProduct(@RequestBody Product product) {
-    return productService.save(product);
+  public ResponseEntity<Product> createProduct(@RequestBody ProductCreationDto productCreationDto) {
+    Product product =  productService.save(productCreationDto.toEntity(categoryService, supplierService));
+    return ResponseEntity.ok(product);
   }
 
   /**
@@ -70,13 +82,19 @@ public class ProductController {
    * @return the response entity
    */
   @PutMapping("/{id}")
-  public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product newProduct) {
+  public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductCreationDto newProduct) {
+    Optional<Category> categoryOptional = categoryService.findById(newProduct.categoryId());
+    Optional<Supplier> supplierOptional = supplierService.findById(newProduct.supplierId());
+    if (categoryOptional.isEmpty() || supplierOptional.isEmpty()) {
+      throw new IllegalArgumentException("Category or Supplier not found");
+    }
+
     return productService.findById(id).map(product -> {
-      product.setName(newProduct.getName());
-      product.setPrice(newProduct.getPrice());
-      product.setDescription(newProduct.getDescription());
-      product.setCategory(newProduct.getCategory());
-      product.setSupplier(newProduct.getSupplier());
+      product.setName(newProduct.name());
+      product.setPrice(newProduct.price());
+      product.setDescription(newProduct.description());
+      product.setCategory(categoryOptional.get());
+      product.setSupplier(supplierOptional.get());
       return ResponseEntity.ok(productService.save(product));
     }).orElse(ResponseEntity.notFound().build());
   }

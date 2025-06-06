@@ -1,7 +1,10 @@
 package com.clothes.damafashion.controller;
 
+import com.clothes.damafashion.controller.dto.SupplierCreationDto;
 import com.clothes.damafashion.entity.Supplier;
+import com.clothes.damafashion.service.ProductService;
 import com.clothes.damafashion.service.SupplierService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +18,18 @@ import java.util.List;
 public class SupplierController {
 
     private final SupplierService supplierService;
+    private final ProductService productService;
 
     /**
      * Instantiates a new Supplier controller.
      *
      * @param supplierService the supplier service
+     * @param productService  the product service
      */
-    public SupplierController(SupplierService supplierService) {
+    @Autowired
+    public SupplierController(SupplierService supplierService, ProductService productService) {
         this.supplierService = supplierService;
+        this.productService = productService;
     }
 
     /**
@@ -55,8 +62,9 @@ public class SupplierController {
      * @return the supplier
      */
     @PostMapping
-    public Supplier createSupplier(@RequestBody Supplier supplier) {
-        return supplierService.save(supplier);
+    public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier) {
+        supplierService.save(supplier);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -67,8 +75,8 @@ public class SupplierController {
      * @return the response entity
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Supplier> updateSupplier(@PathVariable Long id, @RequestBody Supplier newSupplier) {
-        return supplierService.update(id, newSupplier)
+    public ResponseEntity<Supplier> updateSupplier(@PathVariable Long id, @RequestBody SupplierCreationDto newSupplier) {
+        return supplierService.update(id, newSupplier.toEntity(productService))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -33,8 +33,9 @@ public class StockController {
      * @return the all stocks
      */
     @GetMapping
-    public List<Stock> getAllStocks() {
-        return stockService.findAll();
+    public ResponseEntity<List<Stock>> getAllStocks() {
+        List<Stock> stock = stockService.findAll();
+        return ResponseEntity.ok(stock);
     }
 
     /**
@@ -53,13 +54,13 @@ public class StockController {
     /**
      * Update stock response entity.
      *
-     * @param productId    the product id
-     * @param updatedStock the updated stock
+     * @param productId     the product id
+     * @param stockQuantity the stock quantity
      * @return the response entity
      */
     @PutMapping("/{productId}")
-    public ResponseEntity<Stock> updateStock(@PathVariable Long productId, @RequestBody Stock updatedStock) {
-        return stockService.updateQuantity(productId, updatedStock.getQuantity())
+    public ResponseEntity<Stock> updateStock(@PathVariable Long productId, @RequestBody Integer stockQuantity) {
+        return stockService.updateQuantity(productId, stockQuantity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -71,7 +72,7 @@ public class StockController {
      * @return the stock
      */
     @PostMapping
-    public Stock createOrUpdateStock(@RequestBody Stock stock) {
+    public Stock createOrUpdateStock(@RequestBody  stock) {
         return stockService.saveOrUpdate(stock);
     }
 

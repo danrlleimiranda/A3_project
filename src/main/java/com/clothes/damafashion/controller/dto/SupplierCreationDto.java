@@ -3,6 +3,7 @@ package com.clothes.damafashion.controller.dto;
 
 import com.clothes.damafashion.entity.Product;
 import com.clothes.damafashion.entity.Supplier;
+import com.clothes.damafashion.service.ProductService;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ public record SupplierCreationDto(String name, String contact, List<Product> pro
    *
    * @return the supplier
    */
-  public Supplier toEntity() {
-    return new Supplier(name, contact, products);
+  public Supplier toEntity(ProductService productService) {
+
+    return new Supplier(name, contact, productService.findAll());
   }
 }

@@ -1,4 +1,5 @@
 package com.clothes.damafashion.controller;
+import com.clothes.damafashion.controller.dto.CategoryCreationDto;
 import com.clothes.damafashion.entity.Category;
 import com.clothes.damafashion.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,14 +52,14 @@ public class CategoryController {
   }
 
   /**
-   * Create category category.
+   * Create category.
    *
    * @param category the category
    * @return the category
    */
   @PostMapping
-  public Category createCategory(@RequestBody Category category) {
-    return categoryService.save(category);
+  public Category createCategory(@RequestBody CategoryCreationDto category) {
+    return categoryService.save(category.toEntity());
   }
 
   /**
@@ -69,9 +70,9 @@ public class CategoryController {
    * @return the response entity
    */
   @PutMapping("/{id}")
-  public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category newCategory) {
+  public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody CategoryCreationDto newCategory) {
     return categoryService.findById(id).map(category -> {
-      category.setName(newCategory.getName());
+      category.setName(newCategory.name());
       return ResponseEntity.ok(categoryService.save(category));
     }).orElse(ResponseEntity.notFound().build());
   }

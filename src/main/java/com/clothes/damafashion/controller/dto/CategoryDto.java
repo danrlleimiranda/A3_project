@@ -7,16 +7,16 @@ import com.clothes.damafashion.entity.Product;
 import java.util.List;
 
 /**
- * The type Fertilizer dto.
+ * The type Category dto.
  */
 public record CategoryDto(Long id, String name, List<Product> products) {
 
 
   /**
-   * From entity fertilizer dto.
+   * From entity category dto.
    *
    * @param category the category
-   * @return the fertilizer dto
+   * @return the category dto
    */
   public static CategoryDto fromEntity(Category category) {
 

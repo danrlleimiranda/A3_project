@@ -31,7 +31,7 @@ public class Product {
   @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
   private Stock stock;
 
-  public Product(String name, Double price, String description,
+  public  Product(String name, Double price, String description,
                  Category category, Supplier supplier) {
     this.name = name;
     this.price = price;
