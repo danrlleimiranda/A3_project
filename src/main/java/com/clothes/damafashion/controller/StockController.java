@@ -1,5 +1,6 @@
 package com.clothes.damafashion.controller;
 
+import com.clothes.damafashion.controller.dto.StockCreationDto;
 import com.clothes.damafashion.entity.Stock;
 import com.clothes.damafashion.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,12 +69,12 @@ public class StockController {
     /**
      * Create or update stock stock.
      *
-     * @param stock the stock
+     * @param stockCreationDto the stock creation dto
      * @return the stock
      */
-    @PostMapping
-    public Stock createOrUpdateStock(@RequestBody  stock) {
-        return stockService.saveOrUpdate(stock);
+    @PostMapping("/")
+    public Stock createStock(@RequestBody StockCreationDto stockCreationDto) {
+        return stockService.save(stockCreationDto.toEntity());
     }
 
     /**

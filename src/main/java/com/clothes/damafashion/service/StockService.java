@@ -49,7 +49,7 @@ public class StockService {
      * @param stock the stock
      * @return the stock
      */
-    public Stock saveOrUpdate(Stock stock) {
+    public Stock save(Stock stock) {
         return stockRepository.save(stock);
     }
 

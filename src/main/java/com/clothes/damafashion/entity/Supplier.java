@@ -29,7 +29,11 @@ public class Supplier {
     this.products = products;
   }
 
-  public Supplier() {
+  public Supplier(String name, String contact) {
+    this.name = name;
+    this.contact = contact;
+  }
 
+  public Supplier() {
   }
 }
