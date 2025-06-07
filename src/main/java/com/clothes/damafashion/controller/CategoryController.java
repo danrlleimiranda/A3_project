@@ -1,5 +1,6 @@
 package com.clothes.damafashion.controller;
 import com.clothes.damafashion.controller.dto.CategoryCreationDto;
+import com.clothes.damafashion.controller.dto.CategoryResponseDto;
 import com.clothes.damafashion.entity.Category;
 import com.clothes.damafashion.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,10 @@ public class CategoryController {
    * @return the all categories
    */
   @GetMapping
-  public List<Category> getAllCategories() {
-    return categoryService.findAll();
+  public List<CategoryResponseDto> getAllCategories() {
+    return categoryService.findAll().stream()
+        .map(CategoryResponseDto::fromEntity)
+        .toList();
   }
 
   /**
@@ -45,8 +48,9 @@ public class CategoryController {
    * @return the category by id
    */
   @GetMapping("/{id}")
-  public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+  public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable Long id) {
     return categoryService.findById(id)
+            .map(CategoryResponseDto::fromEntity)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
   }
@@ -58,8 +62,9 @@ public class CategoryController {
    * @return the category
    */
   @PostMapping
-  public Category createCategory(@RequestBody CategoryCreationDto category) {
-    return categoryService.save(category.toEntity());
+  public CategoryResponseDto createCategory(@RequestBody CategoryCreationDto category) {
+    Category savedCategory = categoryService.save(category.toEntity());
+    return CategoryResponseDto.fromEntity(savedCategory);
   }
 
   /**
@@ -70,10 +75,11 @@ public class CategoryController {
    * @return the response entity
    */
   @PutMapping("/{id}")
-  public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody CategoryCreationDto newCategory) {
+  public ResponseEntity<CategoryResponseDto> updateCategory(@PathVariable Long id, @RequestBody CategoryCreationDto newCategory) {
     return categoryService.findById(id).map(category -> {
       category.setName(newCategory.name());
-      return ResponseEntity.ok(categoryService.save(category));
+      Category updatedCategory = categoryService.save(category);
+      return ResponseEntity.ok(CategoryResponseDto.fromEntity(updatedCategory));
     }).orElse(ResponseEntity.notFound().build());
   }
 

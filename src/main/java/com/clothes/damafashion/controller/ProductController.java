@@ -1,6 +1,7 @@
 package com.clothes.damafashion.controller;
 
 import com.clothes.damafashion.controller.dto.ProductCreationDto;
+import com.clothes.damafashion.controller.dto.ProductResponseDto;
 import com.clothes.damafashion.entity.Category;
 import com.clothes.damafashion.entity.Product;
 import com.clothes.damafashion.entity.Supplier;
@@ -45,8 +46,9 @@ public class ProductController {
    * @return the all products
    */
   @GetMapping
-  public List<Product> getAllProducts() {
-    return productService.findAll();
+  public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
+    List<Product> products = productService.findAll();
+    return ResponseEntity.ok(products.stream().map(ProductResponseDto::fromEntity).toList());
   }
 
   /**
@@ -56,8 +58,9 @@ public class ProductController {
    * @return the product by id
    */
   @GetMapping("/{id}")
-  public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+  public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) {
     return productService.findById(id)
+            .map(ProductResponseDto::fromEntity)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
   }
@@ -65,13 +68,13 @@ public class ProductController {
   /**
    * Create product product.
    *
-   * @param product the product
+   * @param productCreationDto the product creation dto
    * @return the product
    */
   @PostMapping
-  public ResponseEntity<Product> createProduct(@RequestBody ProductCreationDto productCreationDto) {
+  public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductCreationDto productCreationDto) {
     Product product =  productService.save(productCreationDto.toEntity(categoryService, supplierService));
-    return ResponseEntity.ok(product);
+    return ResponseEntity.ok(ProductResponseDto.fromEntity(product));
   }
 
   /**
@@ -82,7 +85,7 @@ public class ProductController {
    * @return the response entity
    */
   @PutMapping("/{id}")
-  public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductCreationDto newProduct) {
+  public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody ProductCreationDto newProduct) {
     Optional<Category> categoryOptional = categoryService.findById(newProduct.categoryId());
     Optional<Supplier> supplierOptional = supplierService.findById(newProduct.supplierId());
     if (categoryOptional.isEmpty() || supplierOptional.isEmpty()) {
@@ -95,7 +98,8 @@ public class ProductController {
       product.setDescription(newProduct.description());
       product.setCategory(categoryOptional.get());
       product.setSupplier(supplierOptional.get());
-      return ResponseEntity.ok(productService.save(product));
+      Product savedProduct = productService.save(product);
+      return ResponseEntity.ok(ProductResponseDto.fromEntity(savedProduct));
     }).orElse(ResponseEntity.notFound().build());
   }
 

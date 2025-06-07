@@ -1,6 +1,7 @@
 package com.clothes.damafashion.controller;
 
 import com.clothes.damafashion.controller.dto.SupplierCreationDto;
+import com.clothes.damafashion.controller.dto.SupplierResponseDto;
 import com.clothes.damafashion.entity.Supplier;
 import com.clothes.damafashion.service.ProductService;
 import com.clothes.damafashion.service.SupplierService;
@@ -38,8 +39,10 @@ public class SupplierController {
      * @return the all suppliers
      */
     @GetMapping
-    public List<Supplier> getAllSuppliers() {
-        return supplierService.findAll();
+    public List<SupplierResponseDto> getAllSuppliers() {
+        return supplierService.findAll().stream()
+            .map(SupplierResponseDto::fromEntity)
+            .toList();
     }
 
     /**
@@ -49,8 +52,9 @@ public class SupplierController {
      * @return the supplier by id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Supplier> getSupplierById(@PathVariable Long id) {
+    public ResponseEntity<SupplierResponseDto> getSupplierById(@PathVariable Long id) {
         return supplierService.findById(id)
+                .map(SupplierResponseDto::fromEntity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -62,9 +66,9 @@ public class SupplierController {
      * @return the supplier
      */
     @PostMapping
-    public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier) {
-        supplierService.save(supplier);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<SupplierResponseDto> createSupplier(@RequestBody SupplierCreationDto supplier) {
+        Supplier savedSupplier = supplierService.save(supplier.toEntity(productService));
+        return ResponseEntity.ok(SupplierResponseDto.fromEntity(savedSupplier));
     }
 
     /**
@@ -75,8 +79,9 @@ public class SupplierController {
      * @return the response entity
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Supplier> updateSupplier(@PathVariable Long id, @RequestBody SupplierCreationDto newSupplier) {
+    public ResponseEntity<SupplierResponseDto> updateSupplier(@PathVariable Long id, @RequestBody SupplierCreationDto newSupplier) {
         return supplierService.update(id, newSupplier.toEntity(productService))
+                .map(SupplierResponseDto::fromEntity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

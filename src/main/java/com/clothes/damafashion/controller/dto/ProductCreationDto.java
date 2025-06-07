@@ -17,6 +17,8 @@ public record ProductCreationDto(String name, Double price, String description,
     /**
      * To entity product.
      *
+     * @param categoryService the category service
+     * @param supplierService the supplier service
      * @return the product
      */
     public Product toEntity(CategoryService categoryService, SupplierService supplierService) {

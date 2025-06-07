@@ -1,6 +1,7 @@
 package com.clothes.damafashion.controller;
 
 import com.clothes.damafashion.controller.dto.StockCreationDto;
+import com.clothes.damafashion.controller.dto.StockResponseDto;
 import com.clothes.damafashion.entity.Stock;
 import com.clothes.damafashion.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,11 @@ public class StockController {
      * @return the all stocks
      */
     @GetMapping
-    public ResponseEntity<List<Stock>> getAllStocks() {
-        List<Stock> stock = stockService.findAll();
-        return ResponseEntity.ok(stock);
+    public ResponseEntity<List<StockResponseDto>> getAllStocks() {
+        List<StockResponseDto> stocks = stockService.findAll().stream()
+            .map(StockResponseDto::fromEntity)
+            .toList();
+        return ResponseEntity.ok(stocks);
     }
 
     /**
@@ -46,8 +49,9 @@ public class StockController {
      * @return the stock by product id
      */
     @GetMapping("/{productId}")
-    public ResponseEntity<Stock> getStockByProductId(@PathVariable Long productId) {
+    public ResponseEntity<StockResponseDto> getStockByProductId(@PathVariable Long productId) {
         return stockService.findByProductId(productId)
+                .map(StockResponseDto::fromEntity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -60,8 +64,9 @@ public class StockController {
      * @return the response entity
      */
     @PutMapping("/{productId}")
-    public ResponseEntity<Stock> updateStock(@PathVariable Long productId, @RequestBody Integer stockQuantity) {
+    public ResponseEntity<StockResponseDto> updateStock(@PathVariable Long productId, @RequestBody Integer stockQuantity) {
         return stockService.updateQuantity(productId, stockQuantity)
+                .map(StockResponseDto::fromEntity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -73,8 +78,9 @@ public class StockController {
      * @return the stock
      */
     @PostMapping("/")
-    public Stock createStock(@RequestBody StockCreationDto stockCreationDto) {
-        return stockService.save(stockCreationDto.toEntity());
+    public StockResponseDto createStock(@RequestBody StockCreationDto stockCreationDto) {
+        Stock savedStock = stockService.save(stockCreationDto.toEntity());
+        return StockResponseDto.fromEntity(savedStock);
     }
 
     /**

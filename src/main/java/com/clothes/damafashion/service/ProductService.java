@@ -24,7 +24,7 @@ public class ProductService {
     }
 
     /**
-     * Find all list.
+     * Find all lists.
      *
      * @return the list
      */
