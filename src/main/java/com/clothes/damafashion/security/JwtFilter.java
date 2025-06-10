@@ -2,6 +2,8 @@ package com.clothes.damafashion.security;
 
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import com.clothes.damafashion.service.UserService;
@@ -29,8 +31,8 @@ public class JwtFilter extends OncePerRequestFilter {
   /**
    * Instantiates a new Jwt filter.
    *
-   * @param tokenService  the token service
-   * @param userService the person service
+   * @param tokenService the token service
+   * @param userService  the user service
    */
   @Autowired
   public JwtFilter(TokenService tokenService, UserService userService) {
@@ -54,7 +56,6 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
-
   }
 
   /**

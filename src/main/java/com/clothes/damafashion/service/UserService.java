@@ -6,6 +6,7 @@ import com.clothes.damafashion.entity.User;
 import com.clothes.damafashion.repository.UserRepository;
 import com.clothes.damafashion.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,9 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
- * Service layer class for handling users business logic.
+ * Service layer class for handling users' business logic.
  */
 @Service
+@Primary
 public class UserService implements UserDetailsService {
 
   private final UserRepository userRepository;
