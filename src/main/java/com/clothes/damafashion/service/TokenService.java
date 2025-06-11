@@ -42,7 +42,7 @@ public class TokenService {
    * @return the instant
    */
   public Instant generateExpiration() {
-    return Instant.now().plus(1, ChronoUnit.DAYS);
+    return Instant.now().plus(2, ChronoUnit.DAYS);
   }
 
   /**

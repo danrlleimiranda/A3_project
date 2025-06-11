@@ -23,17 +23,13 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
-    environment:
-      - SPRING_APPLICATION_NAME=damafashion
-      - API_SECURITY_TOKEN_SECRET=secret
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/inventory_manager
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=docker
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
-      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
     networks:
       - app-network
+    volumes:
+      - ./src:/app/src
+      - ./target:/app/target
+      - ./pom.xml:/app/pom.xml
+
 
 networks:
   app-network:
