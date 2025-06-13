@@ -93,7 +93,7 @@ public class CategoryController {
   public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
     Optional<Category> category = categoryService.findById(id);
 
-    if (category.isEmpty()) {
+    if (category.isPresent()) {
       categoryService.delete(id);
       return ResponseEntity.noContent().build();
     }

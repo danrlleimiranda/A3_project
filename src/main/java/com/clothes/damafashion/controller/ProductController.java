@@ -114,7 +114,7 @@ public class ProductController {
 
     Optional<Product> product = productService.findById(id);
 
-    if (product.isEmpty()) {
+    if (product.isPresent()) {
       productService.delete(id);
       return ResponseEntity.noContent().build();
     }

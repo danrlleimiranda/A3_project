@@ -3,6 +3,7 @@ package com.clothes.damafashion.service;
 import com.clothes.damafashion.entity.Stock;
 import com.clothes.damafashion.repository.StockRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -73,11 +74,14 @@ public class StockService {
      * @param id the id
      * @return the boolean
      */
+    @Transactional
     public boolean delete(Long id) {
-        if (stockRepository.existsById(id)) {
-            stockRepository.deleteById(id);
-            return true;
-        }
-        return false;
+               Optional<Stock> stock = stockRepository.findById(id);
+               if (stock.isPresent()) {
+                   stockRepository.deleteById(id);
+                   return true;
+               }
+               return false;
+
     }
 }

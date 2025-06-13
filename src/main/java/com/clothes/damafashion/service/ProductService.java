@@ -3,6 +3,8 @@ package com.clothes.damafashion.service;
 import com.clothes.damafashion.entity.Product;
 import com.clothes.damafashion.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -75,9 +77,13 @@ public class ProductService {
      *
      * @param id the id
      */
-    public void delete(Long id) {
-        if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
-        }
+    @Transactional
+    public boolean delete(Long id) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    productRepository.delete(product);
+                    return true;
+                })
+                .orElse(false);
     }
 }

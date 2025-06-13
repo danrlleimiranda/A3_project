@@ -3,6 +3,7 @@ package com.clothes.damafashion.controller;
 import com.clothes.damafashion.controller.dto.StockCreationDto;
 import com.clothes.damafashion.controller.dto.StockResponseDto;
 import com.clothes.damafashion.entity.Stock;
+import com.clothes.damafashion.service.ProductService;
 import com.clothes.damafashion.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 public class StockController {
 
     private final StockService stockService;
+    private final ProductService productService;
 
     /**
      * Instantiates a new Stock controller.
@@ -25,8 +27,9 @@ public class StockController {
      * @param stockService the stock service
      */
     @Autowired
-    public StockController(StockService stockService) {
+    public StockController(StockService stockService, ProductService productService) {
         this.stockService = stockService;
+        this.productService = productService;
     }
 
     /**
@@ -77,9 +80,10 @@ public class StockController {
      * @param stockCreationDto the stock creation dto
      * @return the stock
      */
-    @PostMapping("/")
+    @PostMapping
     public StockResponseDto createStock(@RequestBody StockCreationDto stockCreationDto) {
-        Stock savedStock = stockService.save(stockCreationDto.toEntity());
+
+        Stock savedStock = stockService.save(stockCreationDto.toEntity(productService));
         return StockResponseDto.fromEntity(savedStock);
     }
 

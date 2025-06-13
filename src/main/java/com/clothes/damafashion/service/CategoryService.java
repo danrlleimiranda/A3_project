@@ -3,6 +3,7 @@ package com.clothes.damafashion.service;
 import com.clothes.damafashion.entity.Category;
 import com.clothes.damafashion.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -73,6 +74,7 @@ public class CategoryService {
      * @param id the id
      * @return the boolean
      */
+    @Transactional
     public boolean delete(Long id) {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);

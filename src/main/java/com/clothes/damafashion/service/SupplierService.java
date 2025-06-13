@@ -3,6 +3,7 @@ package com.clothes.damafashion.service;
 import com.clothes.damafashion.entity.Supplier;
 import com.clothes.damafashion.repository.SupplierRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +75,7 @@ public class SupplierService {
      * @param id the id
      * @return the boolean
      */
+    @Transactional
     public boolean delete(Long id) {
         if (supplierRepository.existsById(id)) {
             supplierRepository.deleteById(id);
